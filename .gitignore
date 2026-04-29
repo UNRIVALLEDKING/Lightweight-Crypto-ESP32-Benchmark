@@ -1,0 +1,91 @@
+# ESP-IDF Build Artifacts
+build/
+dist/
+.idf_build/
+*.elf
+*.bin
+*.map
+*.o
+*.a
+*.so
+*.d
+
+# CMake
+CMakeFiles/
+cmake_install.cmake
+CMakeCache.txt
+*.cmake
+compile_commands.json
+
+# SDK Configuration
+sdkconfig
+sdkconfig.old
+.sdkconfig.swp
+
+# IDE and Editor Settings
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+.project
+.cproject
+.settings/
+*.sublime-workspace
+*.sublime-project
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+*.egg
+.pytest_cache/
+venv/
+env/
+.venv
+
+# Compiler/Linker
+*.lo
+*.la
+.libs/
+
+# Documentation and Logs
+*.log
+doc/_build/
+build_docs/
+
+# Dependencies
+components/*/build/
+esp-idf/
+
+# Wokwi
+.wokwi-ci.yml
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~
+.tmp/
+
+# System files
+Thumbs.db
+.DS_Store
+*.exe
+*.out
+
+# Ninja build files
+.ninja_deps
+.ninja_log
+build.ninja
+
+# OS specific
+.env
+.env.local
+
+# Research/Analysis outputs (optional - comment out if you want to track these)
+# *.csv
+# *.dat
+# *.results

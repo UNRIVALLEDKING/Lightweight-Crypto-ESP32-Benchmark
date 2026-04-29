@@ -1,0 +1,5 @@
+[wokwi]
+version = 1
+elf = "build/crypto_benchmark.elf"
+firmware = "build/crypto_benchmark.bin"
+rom7 = ""
