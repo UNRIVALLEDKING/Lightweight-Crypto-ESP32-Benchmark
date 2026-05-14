@@ -126,17 +126,6 @@ The implementation is highly optimized for IoT, consuming only **~134 KB** of to
 
 ---
 
-## ❓ Troubleshooting
-
-| Issue | Solution |
-|-------|----------|
-| `idf.py not found` | Run `source $IDF_PATH/export.sh` (Linux/Mac) or `%IDF_PATH%\export.bat` (Win). |
-| `Permission denied` (Serial) | Linux: `sudo usermod -a -G dialout $USER` and restart session. |
-| `Timed out waiting for header` | Check cable quality or install/update CH340/CP210x drivers. |
-| Simulation won't start | Ensure `build/crypto_benchmark.elf` exists after a successful build. |
-
----
-
 ## 📜 Citation
 
 If you use this work in your research, please cite:
