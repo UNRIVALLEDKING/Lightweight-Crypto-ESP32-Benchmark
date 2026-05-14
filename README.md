@@ -1,449 +1,164 @@
-# Evaluating Lightweight Cryptographic Algorithms for Resource-Constrained IoT Devices
+# Lightweight Cryptographic Algorithms for Resource-Constrained IoT Devices: A Security and Performance Evaluation
 
-This repository contains the bare-metal hardware benchmarking implementations used in the research paper: *"Evaluating Lightweight Cryptographic Algorithms for Resource-Constrained IoT Devices: A Security and Performance Evaluation."*
+[![Paper](https://img.shields.io/badge/Paper-IJERT-blue.svg)](https://www.ijert.org/research/lightweight-cryptographic-algorithms-for-resource-constrained-iot-devices-a-security-and-performance-IJERTV15IS050866.pdf)
+[![ESP-IDF](https://img.shields.io/badge/ESP--IDF-6.0.0-orange.svg)](https://docs.espressif.com/projects/esp-idf/)
+[![License](https://img.shields.io/badge/License-Academic-green.svg)](#license)
 
-**Department:** Information Technology  
-**Institution:** University of Mumbai  
-**Degree:** M.S. Cybersecurity
+This repository contains the bare-metal hardware benchmarking implementations for the research paper:  
+**"Lightweight Cryptographic Algorithms for Resource-Constrained IoT Devices: A Security and Performance Evaluation"**
 
-## Overview
+---
 
-A comprehensive performance and security evaluation of lightweight cryptographic algorithms specifically designed for resource-constrained IoT devices. This research benchmarks three leading lightweight ciphers on actual hardware to provide empirical evidence for algorithm selection in embedded systems.
+## 📄 Research Publication
 
-## Hardware Target
+**Authors:**  
+- **Aditya Kumar** — M.S. Cybersecurity, University of Mumbai  
+- **Prof. Jayesh Shinde** — Department of IT, University of Mumbai  
 
-All benchmarks were designed for and executed on the **ESP32 (Xtensa Dual-Core 32-bit LX6 microprocessor)** operating at 240 MHz.
+**Published In:** *International Journal of Engineering Research & Technology (IJERT)*, Volume 15, Issue 05, May 2026.  
+**🔗 Paper Link:** [Read on IJERT](https://www.ijert.org/research/lightweight-cryptographic-algorithms-for-resource-constrained-iot-devices-a-security-and-performance-IJERTV15IS050866.pdf)  
+**🔗 DOI:** (Activation Pending)
 
-- **Dual-Core:** Runs on a single core to avoid interference
-- **Memory:** 520 KB SRAM, 4 MB Flash
-- **Precision:** Cycle-accurate measurements using `esp_cpu_get_cycle_count()` via ESP-IDF
-- **No OS Overhead:** Bare-metal implementation for pure CPU cycle measurement
+---
 
-## Evaluated Algorithms
+## 🚀 Overview & Key Contributions
 
-The `main/` directory contains standalone C implementations for:
+A comprehensive performance and security evaluation of leading lightweight ciphers (SIMON, PRESENT, ASCON) on ESP32 hardware. This research provides empirical evidence for algorithm selection in resource-constrained IoT environments.
 
-| Algorithm | Type | Key Size | Block Size | Reference |
-|-----------|------|----------|------------|-----------|
-| **SIMON 64/128** | Block Cipher | 128-bit | 64-bit | NIST Lightweight Competition |
-| **PRESENT-80** | Block Cipher | 80-bit | 64-bit | ISO/IEC 29129 |
-| **ASCON-128** | AEAD Cipher | 128-bit | 128-bit | NIST AEAD Selection 2023 |
+### Key Contributions:
+- **Cycle-Accurate Benchmarking:** Precise measurements using `esp_cpu_get_cycle_count()` on actual hardware.
+- **Bare-Metal Implementation:** Minimal OS overhead for pure CPU performance evaluation.
+- **Comparative Analysis:** Evaluation of block ciphers (SIMON, PRESENT) vs. AEAD (ASCON-128).
+- **Optimization Insights:** Performance behavior on Xtensa LX6 architecture under different compiler optimizations.
+- **Reproducible Framework:** A plug-and-play benchmarking suite for cryptographic research.
 
-### Implementation Details
+---
 
-- **ASCON-128:** Core permutation logic from official NIST reference implementation, optimized for Xtensa architecture
-- **SIMON & PRESENT:** Bare-metal implementations with cycle-level precision
-- **No External Libraries:** All benchmarks self-contained for maximum accuracy
+## 🛠️ Hardware Target
 
-## Prerequisites
+Benchmarks are executed on the **ESP32 (Xtensa Dual-Core 32-bit LX6)**:
+- **Clock Speed:** 240 MHz
+- **Isolation:** Executes on a single core to eliminate multi-core interference.
+- **Memory:** 520 KB SRAM, 4 MB Flash.
+- **Execution:** Critical code is placed in **IRAM** for zero-wait-state performance.
 
-### System Requirements
-- **OS:** Linux, macOS, or Windows (with WSL2 recommended)
-- **Python:** 3.7 or higher
-- **Git:** Latest version
-- **USB-to-Serial Driver:** CH340 or CP210x (depending on your ESP32 board)
+---
 
-### Hardware
-- **ESP32 Development Board:** ESP32-DEVKIT-V1 or equivalent
-- **USB Cable:** Micro-USB for flashing and serial monitoring
-- **Optional:** Wokwi account for cloud-based simulation
+## 🔐 Evaluated Algorithms
 
-## Installation
+| Algorithm | Type | Key / Block Size | Rounds | Reference / Standard | Primary Use Case |
+|-----------|------|------------------|--------|----------------------|------------------|
+| **SIMON 64/128** | Block Cipher | 128 / 64-bit | 44 | NSA Lightweight Cipher | High-speed software optimization |
+| **PRESENT-80** | Block Cipher | 80 / 64-bit | 31 | ISO/IEC 29192-2 | Hardware-efficient encryption |
+| **ASCON-128** | AEAD Cipher | 128 / 128-bit | 12 / 6 | NIST AEAD Selection (2023) | Authenticated encryption for IoT |
 
-### Step 1: Install ESP-IDF
+---
 
-Two methods available:
+## 📦 Getting Started
 
-#### Method A: Using VS Code Extension (Recommended for Beginners)
+### 1. Prerequisites
+- **Hardware:** ESP32 DevKit V1 (or equivalent) + Micro-USB cable.
+- **Software:** Python 3.7+, Git, and Serial Drivers (CH340/CP210x).
 
-The easiest way to set up ESP-IDF on any OS:
+### 2. Setup ESP-IDF
+The project requires **ESP-IDF v6.0.0+**.
 
-1. Install Visual Studio Code: https://code.visualstudio.com/
-2. Install the **ESP-IDF Extension** from VS Code marketplace:
-   - Open VS Code
-   - Go to Extensions (Ctrl+Shift+X)
-   - Search for "ESP-IDF"
-   - Install official extension by Espressif
-3. Click the ESP-IDF icon in the sidebar and select **Install ESP-IDF**
-4. Follow the interactive setup wizard (ESP-IDF will download and configure automatically)
+*   **Option A (VS Code):** Install the [ESP-IDF Extension](https://marketplace.visualstudio.com/items?itemName=espressif.esp-idf-extension) and use the "Install ESP-IDF" wizard.
+*   **Option B (CLI):** Follow the [Official Installation Guide](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/index.html).
 
-#### Method B: Manual Installation
-
-**On Windows (Recommended):**
-- Download the **ESP-IDF Windows Installer** (.exe): https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/windows-setup.html
-- Run the installer and follow on-screen instructions
-- Restart your system after installation
-
-**On Linux/macOS:**
-```bash
-git clone --recursive https://github.com/espressif/esp-idf.git
-cd esp-idf
-./install.sh
-source ./export.sh
-```
-
-**Or use the IDF-Tool Web Installer:**
-https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/windows-setup.html
-
-### Step 2: Clone This Repository
-
+### 3. Clone Repository
 ```bash
 git clone https://github.com/yourusername/Lightweight-Crypto-ESP32-Benchmark.git
 cd Lightweight-Crypto-ESP32-Benchmark
 ```
 
-### Step 3: Open in VS Code
-
-If using the ESP-IDF Extension:
-1. Open the project folder in VS Code
-2. The extension auto-detects ESP-IDF configuration
-3. Use the ESP-IDF sidebar for all commands
-
-If using manual installation, set up environment variables:
-
-```bash
-# Linux/macOS
-source $IDF_PATH/export.sh
-
-# Windows (Git Bash)
-source $IDF_PATH/export.sh
-
-# Windows (CMD)
-%IDF_PATH%\export.bat
-```
-
-### Step 4: Configure and Build
-
-**Using VS Code Extension:**
-1. Click ESP-IDF icon in sidebar
-2. Select "Device Configuration" to configure target
-3. Select "Build Project" to compile
-
-**Using Command Line:**
-```bash
-# Set target and configure
-idf.py set-target esp32
-idf.py menuconfig
-
-# Build the project
-idf.py build
-```
-
-## Running the Benchmarks
-
-### Option 1: Hardware Simulation Using Wokwi (Recommended for Quick Testing)
-
-#### Method A: Wokwi VS Code Extension (Easiest)
-
-1. Install the **Wokwi for VS Code** extension from marketplace
-2. Open this project in VS Code
-3. Right-click `diagram.json` → Select **"Open in Wokwi Simulator"**
-4. The simulator will load and begin execution automatically
-5. View real-time results in the serial monitor
-
-**Benefits:**
-- No need to leave VS Code
-- Live serial output during simulation
-- Perfect for testing without physical hardware
-- Works on any OS (Linux, macOS, Windows)
-
-#### Method B: Wokwi CLI
-
-**Prerequisites:**
-- Free Wokwi account: https://wokwi.com
-- Node.js installed: https://nodejs.org/
-- Install Wokwi CLI: `npm install -g wokwi-cli`
-
-**Steps:**
-```bash
-# Build the project first
-idf.py build
-
-# Start Wokwi simulation
-wokwi-cli --elf build/crypto_benchmark.elf
-```
-
-The project includes `diagram.json` configuration with ESP32 and serial monitor pre-configured.
-
-**Output:** Real-time simulation results in the Wokwi serial monitor showing cycle counts and execution times.
-
-### Option 2: Flash to Physical Hardware
-
-#### Using VS Code Extension (Recommended)
-
-1. Connect ESP32 board via USB cable
-2. Click ESP-IDF icon in sidebar
-3. Select "Select Port" and choose your device
-4. Click "Build and Flash" to compile and upload
-5. Click "Start Monitoring the Device" to see output
-
-#### Using Command Line
-
-```bash
-# Build, flash, and monitor all at once
-idf.py build flash monitor
-```
-
-The `monitor` command:
-- Displays serial output in real-time
-- Shows benchmark results (cycles, microseconds, memory usage)
-- Auto-restarts on upload
-
-To exit the monitor: Press `Ctrl+]` (or `Ctrl+Shift+]` on Windows)
-
-**Windows Users:** The ESP-IDF installer automatically handles USB drivers (.exe installer recommended)
-
-### Option 3: Build Without Flashing
-
-```bash
-# Build only (outputs to build/crypto_benchmark.elf and .bin)
-idf.py build
-
-# Files generated:
-# - build/crypto_benchmark.elf (for Wokwi or JTAG debugging)
-# - build/crypto_benchmark.bin (for manual flashing)
-```
-
-## Running the Benchmarks
-
-By default, the project is configured to run all three benchmarks (SIMON, PRESENT, and ASCON) sequentially to provide a full performance comparison in a single execution.
-
-### Customizing Execution
-If you wish to run only a specific benchmark, you can modify `main/main.c` by commenting out the function calls in `app_main()`:
-
-```c
-void app_main(void) {
-    // ...
-    run_simon_benchmark();    // Comment out to skip
-    run_present_benchmark();  // Comment out to skip
-    run_ascon_benchmark();    // Comment out to skip
-    // ...
-}
-```
-
-This approach allows you to isolate a single algorithm for more detailed analysis without changing the build configuration.
-
-## Interpreting Benchmark Results
-
-Actual output from all three algorithms running sequentially:
-
-```
-====================================================
-   LWC PERFORMANCE EVALUATION - ESP32 (XTENSA)      
-====================================================
-
->>> STARTING SIMON 64/128 BENCHMARK
---- SIMON 64/128 Results ---
-Avg Time: 82.9120 us
-Avg Cycles: 13265.19
-Verification: a9291196
-
->>> STARTING PRESENT-80 BENCHMARK
---- PRESENT-80 Results ---
-Avg Time: 9829.1797 us
-Avg Cycles: 1572661.88
-Verification: 9e05ff74eb26c0b3
-
->>> STARTING ASCON-128 (AEAD) BENCHMARK
---- ASCON-128 Results ---
-Avg Time: 613.8250 us
-Avg Cycles: 98211.25
-Verification: 08
-
-====================================================
-            ALL BENCHMARKS COMPLETED                
-====================================================
-```
-
-### Key Metrics
-
-| Metric | Description | Unit |
-|--------|-------------|------|
-| **Avg Time** | Average execution time per encryption operation | Microseconds (µs) |
-| **Avg Cycles** | Average CPU cycles required (normalized to 240 MHz) | Clock cycles |
-| **Verification** | Checksum of output (validates correctness) | Hexadecimal |
-
-### Performance Summary Table
-
-| Algorithm | Time (µs) | Cycles | Speed Advantage | Use Case |
-|-----------|-----------|--------|-----------------|----------|
-| **SIMON 64/128** | 82.91 | 13,265 | ⚡ Fastest | High-speed encryption, minimal latency |
-| **ASCON-128** | 613.83 | 98,211 | ⚡⚡ Balanced | Authenticated encryption (AEAD) |
-| **PRESENT-80** | 9829.18 | 1,572,662 | 🔒 Most Secure | Maximum security margin (slowest) |
-
-### Binary Size & Memory Footprint
-
-```
-Memory Type Usage Summary
-┏━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
-┃ Memory Type/Section   ┃ Used [bytes] ┃ Used [%] ┃ Remain [bytes] ┃ Total [bytes] ┃
-┡━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
-│ Flash Code            │        48,788 │     3.7% │                │      1,310 KB │
-│ Flash Data            │        34,112 │     2.6% │                │      1,310 KB │
-│ IRAM                  │        40,759 │    31.1% │         90,313 │        131 KB │
-│ DRAM                  │        12,848 │     7.1% │        167,888 │        180 KB │
-│ RTC SLOW              │            64 │     0.8% │          8,128 │          8 KB │
-├───────────────────────┼──────────────┼──────────┼────────────────┼───────────────┤
-│ **Total Image Size**  │    **134 KB** │ ✓ Compact                                  │
-└───────────────────────┴──────────────┴──────────┴────────────────┴───────────────┘
-```
-
-**Interpretation:**
-- **Fits in ESP32:** Binary size well within 4 MB flash limit
-- **Efficient RAM usage:** Only 7.1% of DRAM used (ideal for IoT devices)
-- **Execution in IRAM:** Critical code cached in fast instruction RAM for optimal performance
-
-## Project Structure
-
-```
-.
-├── CMakeLists.txt                 # ESP-IDF project configuration
-├── main/
-│   ├── main.c                     # Entry point and benchmark orchestrator
-│   ├── ascon_benchmark.c          # ASCON-128 benchmark
-│   ├── simon_benchmark.c          # SIMON 64/128 benchmark
-│   ├── present_benchmark.c        # PRESENT-80 benchmark
-│   └── CMakeLists.txt             # Component configuration
-├── components/
-│   └── ascon/                     # ASCON-128 implementation
-│       ├── core.c / core.h
-│       ├── encrypt.c / decrypt.c
-│       ├── permutations.c / permutations.h
-│       └── constants.h
-├── build/                         # Build artifacts (auto-generated)
-├── diagram.json                   # Wokwi simulation configuration
-├── wokwi.toml                     # Wokwi project metadata
-└── README.md                      # This file
-```
-
-## VS Code Integration (Recommended Workflow)
-
-### Essential VS Code Extensions
-
-1. **ESP-IDF Extension** (by Espressif)
-   - One-click build, flash, and monitor
-   - Device selection and configuration UI
-   - Integrated terminal with proper environment
-
-2. **Wokwi Simulator** (by Wokwi)
-   - Right-click `diagram.json` to simulate
-   - Real-time serial output
-   - No external tools required
-
-3. **Optional but Recommended:**
-   - C/C++ IntelliSense (Microsoft)
-   - Cortex-Debug (Cortex Debug)
-   - Git Graph (for version tracking)
-
-### Typical Workflow
-
-```
-1. Edit code in VS Code
-   ↓
-2. ESP-IDF Extension: "Build Project"
-   ↓
-3. Choose your method:
-   ├─ "Wokwi: Open in Simulator" (for simulation)
-   └─ "Build and Flash" (for hardware)
-   ↓
-4. View results in integrated terminal
-```
-
-## Troubleshooting
-
-### Build Errors
-
-**Problem:** `Command 'idf.py' not found`  
-**Solution:** Using VS Code extension? Ensure extension is active. Manual setup? Source the environment: `source $IDF_PATH/export.sh`
-
-**Problem:** `CMake Error: Could not find ESP-IDF`  
-**Solution:** Set the IDF_PATH: `export IDF_PATH=/path/to/esp-idf`
-
-### Flash Errors
-
-**Problem:** `Failed to open port /dev/ttyUSB0`  
-**Solution:**
-```bash
-# Linux: Add user to dialout group
-sudo usermod -a -G dialout $USER
-# Restart your session
-```
-
-**Problem:** `Timed out waiting for packet header` on Windows  
-**Solution:** 
-- Use ESP-IDF .exe installer (auto-installs drivers)
-- Or manually install USB driver from: https://www.wch-ic.com/downloads/CH341SER_EXE.html
-
-### Simulation Issues
-
-**Problem:** Wokwi simulation won't start  
-**Solution:**
-1. Verify build succeeded: `ls -la build/crypto_benchmark.elf`
-2. Using CLI? Ensure installed: `wokwi-cli --version`
-3. Check internet connection (Wokwi cloud requires connectivity)
-4. Using extension? Reload VS Code
-
-**Problem:** VS Code extension not detecting ESP-IDF  
-**Solution:**
-1. Click ESP-IDF icon in sidebar
-2. Select "Configure ESP-IDF Extension"
-3. Follow the "Install ESP-IDF" wizard
-4. Reload VS Code when complete
-
-## Data Analysis and Reporting
-
-To extract and analyze benchmark results:
-
-```bash
-# Capture serial output to file (while running)
-idf.py build flash monitor | tee benchmark_results.log
-
-# Alternative: Use miniterm directly
-miniterm.py /dev/ttyUSB0 115200 > results.log
-```
-
-**Analysis Recommendations:**
-- Run each benchmark 5-10 times for statistical significance
-- Include execution environment details (temperature, supply voltage)
-- Compare cycle counts across algorithms for normalized performance
-- Document RAM/ROM tradeoffs for embedded system selection
-
-## Citation
-
-If you use this research in your work, please cite:
-
-```bibtex
-@thesis{lightweight-crypto-iot-2024,
-  author = {Aditya Kumar},
-  title = {Evaluating Lightweight Cryptographic Algorithms for Resource-Constrained IoT Devices: 
-           A Security and Performance Evaluation},
-  school = {Department of Information Technology, University of Mumbai},
-  year = {2026},
-  degree = {Master of Science in Cybersecurity}
-}
-```
-
-## Documentation
-
-- **ESP-IDF Official Docs:** https://docs.espressif.com/projects/esp-idf/
-- **Wokwi Documentation:** https://docs.wokwi.com/
-- **NIST Lightweight Crypto:** https://csrc.nist.gov/Projects/Lightweight-Cryptography/
-- **ASCON Specification:** https://ascon.iaik.tugraz.at/
-
-## License
-
-This project is provided for academic and research purposes. Ensure compliance with your institution's guidelines and applicable licensing agreements.
-
-## Support
-
-For issues or questions:
-1. Check existing GitHub issues
-2. Review ESP-IDF documentation
-3. Consult the research paper for algorithm-specific details
-4. Contact your supervisor or research advisor
+---
+
+## 💻 Usage
+
+### Build & Run (Physical Hardware)
+1.  **Configure:** `idf.py set-target esp32`
+2.  **Flash & Monitor:** `idf.py build flash monitor`
+    *   *To exit monitor: `Ctrl + ]`*
+
+### Simulation (Wokwi)
+No hardware? Use the Wokwi simulator:
+1.  **VS Code:** Install "Wokwi for VS Code", right-click `diagram.json` → **Open in Wokwi Simulator**.
+2.  **CLI:** `wokwi-cli --elf build/crypto_benchmark.elf`
 
 ---
 
-**Last Updated:** April 2026  
-**ESP-IDF Version:** 6.0.0  
-**Target Device:** ESP32 @ 240 MHz
+## 📊 Benchmark Results
+
+### Performance Metrics (at 240 MHz)
+
+| Algorithm | Time (µs) | CPU Cycles | Relative Speed | Primary Benefit |
+|-----------|-----------|------------|----------------|-----------------|
+| **SIMON 64/128** | 82.91 | 13,265 | ⚡⚡⚡ | Fastest execution |
+| **ASCON-128** | 613.83 | 98,211 | ⚡⚡ | Authenticated Encryption |
+| **PRESENT-80** | 9829.18 | 1,572,662 | 🔒 | High security margin |
+
+### Memory Footprint
+The implementation is highly optimized for IoT, consuming only **~134 KB** of total image size.
+
+| Memory Section | Usage | % Used | Total Available |
+|----------------|-------|--------|-----------------|
+| **Flash Code** | 48.8 KB | 3.7% | 1.3 MB |
+| **IRAM** | 40.8 KB | 31.1% | 131 KB |
+| **DRAM (Static)** | 12.8 KB | 7.1% | 180 KB |
+
+---
+
+## 📁 Project Structure
+
+```text
+.
+├── main/
+│   ├── main.c              # Orchestrator
+│   ├── ascon_benchmark.c   # ASCON implementation & tests
+│   ├── simon_benchmark.c   # SIMON implementation & tests
+│   └── present_benchmark.c # PRESENT implementation & tests
+├── components/
+│   └── ascon/              # Shared ASCON core logic
+├── diagram.json            # Wokwi simulation config
+└── README.md               # You are here
+```
+
+---
+
+## ❓ Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| `idf.py not found` | Run `source $IDF_PATH/export.sh` (Linux/Mac) or `%IDF_PATH%\export.bat` (Win). |
+| `Permission denied` (Serial) | Linux: `sudo usermod -a -G dialout $USER` and restart session. |
+| `Timed out waiting for header` | Check cable quality or install/update CH340/CP210x drivers. |
+| Simulation won't start | Ensure `build/crypto_benchmark.elf` exists after a successful build. |
+
+---
+
+## 📜 Citation
+
+If you use this work in your research, please cite:
+
+```bibtex
+@article{kumar_shinde_2026_lightweight,
+  author = {Aditya Kumar and Jayesh Shinde},
+  title = {Lightweight Cryptographic Algorithms for Resource-Constrained IoT Devices: A Security and Performance Evaluation},
+  journal = {International Journal of Engineering Research & Technology (IJERT)},
+  volume = {15},
+  number = {05},
+  year = {2026},
+  url = {https://www.ijert.org/research/lightweight-cryptographic-algorithms-for-resource-constrained-iot-devices-a-security-and-performance-IJERTV15IS050866.pdf}
+}
+```
+
+---
+
+## ⚖️ License & Support
+
+- **License:** This project is provided for academic and research purposes.
+- **Support:** For questions, please open a GitHub issue or refer to the [official ESP-IDF documentation](https://docs.espressif.com/projects/esp-idf/).
+
+**Last Updated:** May 2026  
+**Target:** ESP32 @ 240MHz
