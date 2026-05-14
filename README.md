@@ -17,7 +17,7 @@ This repository contains the bare-metal hardware benchmarking implementations fo
 
 **Published In:** *International Journal of Engineering Research & Technology (IJERT)*, Volume 15, Issue 05, May 2026.  
 **🔗 Paper Link:** [Read on IJERT](https://www.ijert.org/research/lightweight-cryptographic-algorithms-for-resource-constrained-iot-devices-a-security-and-performance-IJERTV15IS050866.pdf)  
-**🔗 DOI:** (Activation Pending)
+**🔗 DOI:** [DOI: 10.5281/zenodo.20175949](https://doi.org/10.5281/zenodo.20175949)
 
 ---
 
@@ -138,7 +138,7 @@ If you use this work in your research, please cite:
   volume = {15},
   number = {05},
   year = {2026},
-  url = {https://www.ijert.org/research/lightweight-cryptographic-algorithms-for-resource-constrained-iot-devices-a-security-and-performance-IJERTV15IS050866.pdf}
+  url = {https://doi.org/10.5281/zenodo.20175949}
 }
 ```
 
